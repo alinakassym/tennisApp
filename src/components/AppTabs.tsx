@@ -9,12 +9,8 @@ const AppTabs: FC = () => {
   const tabs = [
     {
       key: 'home',
-      label: (
-        <>
-          <HomeOutlined />
-          Главная
-        </>
-      ),
+      label: 'Главная',
+      icon: <HomeOutlined />,
       content: <HomePage />,
     },
     {
@@ -43,9 +39,10 @@ const AppTabs: FC = () => {
     <Tabs
       defaultActiveKey="home"
       centered
-      items={tabs.map(({ key, label, content }) => ({
+      items={tabs.map(({ key, icon, label, content }) => ({
         key,
         label,
+        icon,
         children: content,
       }))}
       tabBarStyle={{
