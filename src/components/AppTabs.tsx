@@ -1,59 +1,56 @@
-import { FC } from 'react';
+import { FC, lazy, Suspense } from 'react';
 import { Tabs } from 'antd';
 import { HomeOutlined, BellOutlined, UserOutlined } from '@ant-design/icons';
-import HomePage from '../pages/HomePage';
-import NotificationsPage from '../pages/NotificationsPage';
-import ProfilePage from '../pages/ProfilePage';
+import { useNavigate, useLocation } from 'react-router-dom';
+import styles from './AppTabs.module.css';
+
+const HomePage = lazy(() => import('../pages/HomePage'));
+const NotificationsPage = lazy(() => import('../pages/NotificationsPage'));
+const ProfilePage = lazy(() => import('../pages/ProfilePage'));
 
 const AppTabs: FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const tabs = [
     {
-      key: 'home',
+      key: '/home',
       label: 'Главная',
       icon: <HomeOutlined />,
       content: <HomePage />,
     },
     {
-      key: 'notifications',
-      label: (
-        <>
-          <BellOutlined />
-          Уведомления
-        </>
-      ),
+      key: '/notifications',
+      label: 'Уведомления',
+      icon: <BellOutlined />,
       content: <NotificationsPage />,
     },
     {
-      key: 'profile',
-      label: (
-        <>
-          <UserOutlined />
-          Профиль
-        </>
-      ),
+      key: '/profile',
+      label: 'Профиль',
+      icon: <UserOutlined />,
       content: <ProfilePage />,
     },
   ];
 
   return (
-    <Tabs
-      defaultActiveKey="home"
-      centered
-      items={tabs.map(({ key, icon, label, content }) => ({
-        key,
-        label,
-        icon,
-        children: content,
-      }))}
-      tabBarStyle={{
-        position: 'fixed',
-        bottom: 0,
-        width: '100%',
-        backgroundColor: '#fff',
-        zIndex: 10,
-        boxShadow: '0 -2px 5px rgba(0,0,0,0.1)',
-      }}
-    />
+    <>
+      <Tabs
+        activeKey={location.pathname}
+        onChange={(key) => navigate(key)}
+        centered
+        items={tabs.map(({ key, icon, label, content }) => ({
+          key,
+          icon,
+          label,
+          children: (
+            <Suspense fallback={<div>Loading...</div>}>
+              {content}
+            </Suspense>
+          ),
+        }))}
+        className={styles.tabBar}
+      />
+    </>
   );
 };
 
