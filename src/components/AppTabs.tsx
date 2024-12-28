@@ -35,7 +35,9 @@ const AppTabs: FC = () => {
   return (
     <>
       <Tabs
+        tabPosition='bottom'
         activeKey={location.pathname}
+        size={"large"}
         onChange={(key) => navigate(key)}
         centered
         items={tabs.map(({ key, icon, label, content }) => ({
@@ -47,6 +49,7 @@ const AppTabs: FC = () => {
               {content}
             </Suspense>
           ),
+          style: {height: "calc(-57px + 100vh)"}
         }))}
         className={styles.tabBar}
       />
