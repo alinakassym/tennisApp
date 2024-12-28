@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-const HomePage: FC = () => {
+const MainPage: FC = () => {
   return <div style={{ padding: '20px' }}>Добро пожаловать на Главную!</div>;
 };
 
-export default HomePage;
+export default MainPage;
